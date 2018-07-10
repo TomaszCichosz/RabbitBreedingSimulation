@@ -10,7 +10,7 @@ public class Rabbit {
         return age;
     }
 
-    public void aging() {
+    public void age() {
         age++;
     }
 }

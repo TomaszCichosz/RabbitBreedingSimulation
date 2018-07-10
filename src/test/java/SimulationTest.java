@@ -33,7 +33,7 @@ public class SimulationTest {
     }
 
     @Test
-    public void givenOneFemaleRabbitWithLimit100_whenSimulate_thenReturn9() {
+    public void givenOneFemaleRabbitWithLimit100_whenSimulate_thenReturnCorrectly() {
         int maleCount = 0;
         int femaleCount = 1;
 

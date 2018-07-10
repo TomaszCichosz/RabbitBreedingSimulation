@@ -18,18 +18,18 @@ public class Simulation {
         initializingPopulation(maleCount, femaleCount);
         while (femaleRabbits.size() + maleRabbits.size() < limit && !femaleRabbits.isEmpty()) {
             for (int i = 0; i < femaleRabbits.size(); i++) {
-                if (femaleRabbits.get(i).getAge() >= 4) {
+                if (getRabbitAge(femaleRabbits, i) >= 4) {
                     breed();
                 }
-                femaleRabbits.get(i).aging();
-                if (femaleRabbits.get(i).getAge() > 96) {
+                femaleRabbits.get(i).age();
+                if (getRabbitAge(femaleRabbits, i) > 96) {
                     femaleRabbits.remove(i);
                     deadRabbitsCount++;
                 }
             }
             for (int i = 0; i < maleRabbits.size(); i++) {
-                maleRabbits.get(i).aging();
-                if (maleRabbits.get(i).getAge() > 96) {
+                maleRabbits.get(i).age();
+                if (getRabbitAge(maleRabbits, i) > 96) {
                     maleRabbits.remove(i);
                     deadRabbitsCount++;
                 }
@@ -39,6 +39,10 @@ public class Simulation {
         if (femaleRabbits.isEmpty()) {
             return -1;
         } else return months;
+    }
+
+    private int getRabbitAge(List<Rabbit> rabbits, int i) {
+        return rabbits.get(i).getAge();
     }
 
     private void initializingPopulation(int maleCount, int femaleCount) {
