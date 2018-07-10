@@ -16,7 +16,7 @@ public class Simulation {
     public int simulate(int maleCount, int femaleCount, long limit) {
         int months = 0;
         initializingPopulation(maleCount, femaleCount);
-        while (femaleRabbits.size() + maleRabbits.size() < limit) {
+        while (femaleRabbits.size() + maleRabbits.size() < limit && !femaleRabbits.isEmpty()) {
             for (int i = 0; i < femaleRabbits.size(); i++) {
                 if (femaleRabbits.get(i).getAge() >= 4) {
                     breed();
@@ -36,7 +36,9 @@ public class Simulation {
             }
             months++;
         }
-        return months;
+        if (femaleRabbits.isEmpty()) {
+            return -1;
+        } else return months;
     }
 
     private void initializingPopulation(int maleCount, int femaleCount) {
