@@ -39,6 +39,16 @@ public class SimulationTest {
 
         int result = simulation.simulate(maleCount, femaleCount, 100);
 
-        assertEquals(9, result);
+        assertEquals(10, result);
+    }
+
+    @Test
+    public void givenOneFemaleRabbitWithLimit1000_whenSimulate_thenReturnCorrectly() {
+        int maleCount = 0;
+        int femaleCount = 1;
+
+        int result = simulation.simulate(maleCount, femaleCount, 1000);
+
+        assertEquals(12, result);
     }
 }
