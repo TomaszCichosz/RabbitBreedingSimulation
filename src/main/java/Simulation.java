@@ -16,25 +16,32 @@ public class Simulation {
     public int simulate(int maleCount, int femaleCount, long limit) {
         int months = 0;
         initializingPopulation(maleCount, femaleCount);
+        int femaleRabbitsPopulation;
+        int maleRabbitsPopulation;
         while (femaleRabbits.size() + maleRabbits.size() < limit && !femaleRabbits.isEmpty()) {
-            for (int i = 0; i < femaleRabbits.size(); i++) {
+            femaleRabbitsPopulation = femaleRabbits.size();
+            for (int i = 0; i < femaleRabbitsPopulation; i++) {
                 if (getRabbitAge(femaleRabbits, i) >= 4) {
                     breed();
                 }
                 femaleRabbits.get(i).age();
                 if (getRabbitAge(femaleRabbits, i) > 96) {
                     femaleRabbits.remove(i);
+                    i--;
                     deadRabbitsCount++;
                 }
             }
-            for (int i = 0; i < maleRabbits.size(); i++) {
+            maleRabbitsPopulation = maleRabbits.size();
+            for (int i = 0; i < maleRabbitsPopulation; i++) {
                 maleRabbits.get(i).age();
                 if (getRabbitAge(maleRabbits, i) > 96) {
                     maleRabbits.remove(i);
+                    i--;
                     deadRabbitsCount++;
                 }
             }
             months++;
+            System.out.println(femaleRabbits.size() + maleRabbits.size());
         }
         if (femaleRabbits.isEmpty()) {
             return -1;
