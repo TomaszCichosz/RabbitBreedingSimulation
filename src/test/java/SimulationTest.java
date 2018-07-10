@@ -17,8 +17,28 @@ public class SimulationTest {
         int maleCount = 0;
         int femaleCount = 0;
 
-        int result = simulation.simulate(0, 0, 100);
+        int result = simulation.simulate(maleCount, femaleCount, 100);
 
         assertEquals(-1, result);
+    }
+
+    @Test
+    public void givenNoFemaleRabbits_whenSimulate_thenReturnNegativeOne() {
+        int maleCount = 100;
+        int femaleCount = 0;
+
+        int result = simulation.simulate(maleCount, femaleCount, 100);
+
+        assertEquals(-1, result);
+    }
+
+    @Test
+    public void givenOneFemaleRabbitWithLimit100_whenSimulate_thenReturn9() {
+        int maleCount = 0;
+        int femaleCount = 1;
+
+        int result = simulation.simulate(maleCount, femaleCount, 100);
+
+        assertEquals(9, result);
     }
 }
