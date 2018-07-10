@@ -1,11 +1,9 @@
 public class Rabbit {
 
     private int age;
-    private boolean isFemale;
 
-    public Rabbit(boolean isFemale) {
+    public Rabbit() {
         age = 0;
-        this.isFemale = isFemale;
     }
 
     public int getAge() {
@@ -14,9 +12,5 @@ public class Rabbit {
 
     public void aging() {
         age++;
-    }
-
-    public boolean isFemale() {
-        return isFemale;
     }
 }
