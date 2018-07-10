@@ -12,6 +12,10 @@ public class Rabbit {
         return age;
     }
 
+    public void aging() {
+        age++;
+    }
+
     public boolean isFemale() {
         return isFemale;
     }
