@@ -13,16 +13,11 @@ public class Simulation {
 
     public int simulate(int maleCount, int femaleCount, long limit) {
         int months = 0;
-        for (int i = 0; i < maleCount; i++) {
-            maleRabbits.add(new Rabbit(false));
-        }
-        for (int i = 0; i < femaleCount; i++) {
-            femaleRabbits.add(new Rabbit(true));
-        }
+        initializingPopulation(maleCount, femaleCount);
         while (femaleRabbits.size() + maleRabbits.size() < limit) {
             for (int i = 0; i < femaleRabbits.size(); i++) {
                 if (femaleRabbits.get(i).getAge() >= 4) {
-                    breed(limit);
+                    breed();
                 }
                 femaleRabbits.get(i).aging();
                 if (femaleRabbits.get(i).getAge() > 96) {
@@ -40,16 +35,21 @@ public class Simulation {
         return months;
     }
 
-    private void breed(long limit) {
+    private void initializingPopulation(int maleCount, int femaleCount) {
+        for (int i = 0; i < maleCount; i++) {
+            maleRabbits.add(new Rabbit());
+        }
+        for (int i = 0; i < femaleCount; i++) {
+            femaleRabbits.add(new Rabbit());
+        }
+    }
+
+    private void breed() {
         for (int i = 0; i < 14; i++) {
-            if (femaleRabbits.size() + maleRabbits.size() < limit) {
-                femaleRabbits.add(new Rabbit(true));
-            }
+            femaleRabbits.add(new Rabbit());
         }
         for (int i = 0; i < 5; i++) {
-            if (femaleRabbits.size() + maleRabbits.size() < limit) {
-                maleRabbits.add(new Rabbit(false));
-            }
+            maleRabbits.add(new Rabbit());
         }
     }
 
