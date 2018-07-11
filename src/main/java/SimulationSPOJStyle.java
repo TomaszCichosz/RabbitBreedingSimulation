@@ -20,7 +20,9 @@ public class SimulationSPOJStyle {
                 newFemaleGeneration += femaleGenerations[i] * 14;
                 newMaleGeneration += femaleGenerations[i] * 5;
             }
+            population += newFemaleGeneration + newMaleGeneration;
 
+            population -= femaleGenerations[96] + maleGenerations[96];
             for (int i = 95; i >= 0; i--) {
                 femaleGenerations[i + 1] = femaleGenerations[i];
                 maleGenerations[i + 1] = maleGenerations[i];
@@ -28,10 +30,6 @@ public class SimulationSPOJStyle {
             femaleGenerations[0] = newFemaleGeneration;
             maleGenerations[0] = newMaleGeneration;
 
-            population = 0;
-            for (int i = 0; i < 97; i++) {
-                population += femaleGenerations[i] + maleGenerations[i];
-            }
             System.out.println(population);
 
             months++;
