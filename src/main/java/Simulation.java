@@ -3,82 +3,83 @@ import java.util.List;
 
 public class Simulation {
 
-    private List<Rabbit> femaleRabbits;
-    private List<Rabbit> maleRabbits;
+    private List<RabbitGeneration> femaleRabbitsGenerations;
+    private long femaleRabbitsCount;
+    private List<RabbitGeneration> maleRabbitsGenerations;
+    private long maleRabbitsCount;
     private long deadRabbitsCount;
 
     public Simulation() {
-        femaleRabbits = new ArrayList<>();
-        maleRabbits = new ArrayList<>();
+        femaleRabbitsGenerations = new ArrayList<>();
+        femaleRabbitsCount = 0;
+        maleRabbitsGenerations = new ArrayList<>();
+        maleRabbitsCount = 0;
         deadRabbitsCount = 0;
     }
 
     public int simulate(int maleCount, int femaleCount, long limit) {
+        if (femaleCount <= 0) {
+            return -1;
+        }
         int months = 0;
         initializingPopulation(maleCount, femaleCount);
-        int femaleRabbitsPopulation;
-        int maleRabbitsPopulation;
-        while (femaleRabbits.size() + maleRabbits.size() < limit && !femaleRabbits.isEmpty()) {
-            femaleRabbitsPopulation = femaleRabbits.size();
-            for (int i = 0; i < femaleRabbitsPopulation; i++) {
-                if (getRabbitAge(femaleRabbits, i) >= 4) {
-                    breed();
+        int rabbitsGenerationSize;
+        RabbitGeneration rabbitGeneration;
+        while (femaleRabbitsCount + maleRabbitsCount < limit) {
+            rabbitsGenerationSize = femaleRabbitsGenerations.size();
+            for (int i = 0; i < rabbitsGenerationSize; i++) {
+                rabbitGeneration = femaleRabbitsGenerations.get(i);
+                if (rabbitGeneration.getAge() >= 4) {
+                    breed(rabbitGeneration.getCount());
                 }
-                femaleRabbits.get(i).age();
-                if (getRabbitAge(femaleRabbits, i) > 96) {
-                    femaleRabbits.remove(i);
+                rabbitGeneration.age();
+                if (rabbitGeneration.getAge() > 96) {
+                    timeToDieFemales(rabbitGeneration.getCount(), i);
                     i--;
-                    deadRabbitsCount++;
                 }
             }
-            maleRabbitsPopulation = maleRabbits.size();
-            for (int i = 0; i < maleRabbitsPopulation; i++) {
-                maleRabbits.get(i).age();
-                if (getRabbitAge(maleRabbits, i) > 96) {
-                    maleRabbits.remove(i);
+            rabbitsGenerationSize = maleRabbitsGenerations.size();
+            for (int i = 0; i < rabbitsGenerationSize; i++) {
+                rabbitGeneration = maleRabbitsGenerations.get(i);
+                rabbitGeneration.age();
+                if (rabbitGeneration.getAge() > 96) {
+                    timeToDieMales(rabbitGeneration.getCount(), i);
                     i--;
-                    deadRabbitsCount++;
                 }
             }
             months++;
-            System.out.println(femaleRabbits.size() + maleRabbits.size());
+            System.out.println(femaleRabbitsCount + maleRabbitsCount);
         }
-        if (femaleRabbits.isEmpty()) {
-            return -1;
-        } else return months;
-    }
-
-    private int getRabbitAge(List<Rabbit> rabbits, int i) {
-        return rabbits.get(i).getAge();
+        return months;
     }
 
     private void initializingPopulation(int maleCount, int femaleCount) {
-        for (int i = 0; i < maleCount; i++) {
-            maleRabbits.add(new Rabbit());
-        }
-        for (int i = 0; i < femaleCount; i++) {
-            femaleRabbits.add(new Rabbit());
-        }
+        femaleRabbitsGenerations.add(new RabbitGeneration(femaleCount));
+        femaleRabbitsCount = femaleCount;
+        maleRabbitsGenerations.add(new RabbitGeneration(maleCount));
+        maleRabbitsCount = maleCount;
     }
 
-    private void breed() {
-        for (int i = 0; i < 14; i++) {
-            femaleRabbits.add(new Rabbit());
-        }
-        for (int i = 0; i < 5; i++) {
-            maleRabbits.add(new Rabbit());
-        }
+    private void breed(long femaleRabbitsCountToBreed) {
+        femaleRabbitsGenerations.add(new RabbitGeneration(14 * femaleRabbitsCountToBreed));
+        femaleRabbitsCount += 14 * femaleRabbitsCountToBreed;
+        maleRabbitsGenerations.add(new RabbitGeneration(5 * femaleRabbitsCountToBreed));
+        maleRabbitsCount += 5 * femaleRabbitsCountToBreed;
+    }
+
+    private void timeToDieFemales(long rabbitGenerationCount, int i) {
+        femaleRabbitsCount -= rabbitGenerationCount;
+        deadRabbitsCount += rabbitGenerationCount;
+        femaleRabbitsGenerations.remove(i);
+    }
+
+    private void timeToDieMales(long rabbitGenerationCount, int i) {
+        maleRabbitsCount -= rabbitGenerationCount;
+        deadRabbitsCount += rabbitGenerationCount;
+        maleRabbitsGenerations.remove(i);
     }
 
     public long getDeadRabbitsCount() {
         return deadRabbitsCount;
-    }
-
-    public List<Rabbit> getFemaleRabbits() {
-        return femaleRabbits;
-    }
-
-    public List<Rabbit> getMaleRabbits() {
-        return maleRabbits;
     }
 }
